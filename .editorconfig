@@ -1,0 +1,8 @@
+root = true
+
+# Force set line separators for `*.sh` files to LF,
+# fixes the bug: JetBrains IDE global LF separator setting is not affect the file uploading,
+# uploaded file have the CRLF separator.
+# See: https://youtrack.jetbrains.com/issue/IDEA-171699
+[*.sh]
+end_of_line = lf
