@@ -1,0 +1,13 @@
+version: "3"
+
+services:
+  phoenix:
+    build:
+      context: ./phoenix
+      args:
+        - MIRROR_URL=${MIRROR_URL}
+        - PHOENIX_VER=${PHOENIX_VER}
+        - HBASE_VER=${HBASE_VER}
+    ports:
+      - 127.0.0.1:8765:8765
+    command: bin/queryserver.py
