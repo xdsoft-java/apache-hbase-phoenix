@@ -20,6 +20,8 @@ cd apache-hbase-phoenix
 
 ### Development
 
+Server listen on `127.0.0.1:8765`.
+
 #### Run in foreground
 
 ```
@@ -40,3 +42,10 @@ docker-compose up -d
 docker-compose down
 ```
 
+## Environment variables
+
+Set it in the `.env` file:
+
+* `MIRROR_URL` — Apache download mirror URL;
+* `PHOENIX_VER` — `4.14.3`, supports only `4.x.y`;
+* `HBASE_VER` — `1.3`, supports only `1.x`.
