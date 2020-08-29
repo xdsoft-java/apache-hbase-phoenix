@@ -47,5 +47,6 @@ docker-compose down
 Set it in the `.env` file:
 
 * `MIRROR_URL` — Apache download mirror URL;
-* `PHOENIX_VER` — `4.14.3`, supports only `4.x.y`;
-* `HBASE_VER` — `1.3`, supports only `1.x`.
+* `PHOENIX_VER` — `5.0.0`, supports only `5.x.y`;
+* `HBASE_VER` — `2.0`, supports only `2.x`.
+* `HBASE_VERSION` — `2.0.6`, supports only `2.x.y`.
