@@ -32,7 +32,16 @@ services:
         - PHOENIX_VER=${PHOENIX_VER}
         - HBASE_VER=${HBASE_VER}
     ports:
+      # Hbase
+      - 127.0.0.1:16000:16000
+      - 127.0.0.1:16010:16010
+      - 127.0.0.1:16020:16020
+      - 127.0.0.1:16030:16030
+      # Zookeeper
       - 127.0.0.1:2181:2181
+      - 127.0.0.1:2888:2888
+      - 127.0.0.1:3888:3888
+      # Phoenix
       - 127.0.0.1:8765:8765
     volumes:
       - hbase_data_test:/hbase-data
