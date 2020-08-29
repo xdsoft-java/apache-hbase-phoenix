@@ -1,13 +1,57 @@
-version: "3"
+version: "3.7"
 
 services:
-  phoenix:
-    build:
-      context: ./phoenix
-      args:
-        - MIRROR_URL=${MIRROR_URL}
-        - PHOENIX_VER=${PHOENIX_VER}
-        - HBASE_VER=${HBASE_VER}
+  namenode:
+    image: woe1997/hadoop-2.7.7-namenode:1.0
     ports:
+      - 127.0.0.1:50070:50070
+    volumes:
+      - hadoop_namenode_test:/hadoop/dfs/name
+    environment:
+      - CLUSTER_NAME=test
+    env_file:
+      - ./hadoop.env
+
+  datanode:
+    image: woe1997/hadoop-2.7.7-datanode:1.0
+    ports:
+      - 127.0.0.1:9864:9864
+    volumes:
+      - hadoop_datanode_test:/hadoop/dfs/data
+    environment:
+      SERVICE_PRECONDITION: "namenode:50070"
+    env_file:
+      - ./hadoop.env
+    depends_on:
+      - namenode
+
+  hbase:
+    image: woe1997/phoenix-5.0.0-hbase-2.0.6-standlone:1.0
+    ports:
+      # Hbase
+      - 127.0.0.1:16000:16000
+      - 127.0.0.1:16010:16010
+      - 127.0.0.1:16020:16020
+      - 127.0.0.1:16030:16030
+      # Zookeeper
+      - 127.0.0.1:2181:2181
+      - 127.0.0.1:2888:2888
+      - 127.0.0.1:3888:3888
+      # Phoenix
       - 127.0.0.1:8765:8765
-    command: bin/queryserver.py
+    volumes:
+      - hbase_data_test:/hbase-data
+      - hbase_zookeeper_data_test:/zookeeper-data
+    environment:
+      SERVICE_PRECONDITION: "namenode:50070 datanode:50075"
+    env_file:
+      - ./hbase-standalone.env
+    depends_on:
+      - namenode
+      - datanode
+
+volumes:
+  hadoop_namenode_test:
+  hadoop_datanode_test:
+  hbase_data_test:
+  hbase_zookeeper_data_test:
