@@ -26,13 +26,7 @@ services:
       - namenode
 
   hbase:
-    #image: woe1997/phoenix-5.0.0-hbase-2.0.6-standlone:1.0
-    build:
-      context: ./phoenix
-      args:
-        - MIRROR_URL=${MIRROR_URL}
-        - PHOENIX_VER=${PHOENIX_VER}
-        - HBASE_VER=${HBASE_VER}
+    image: woe1997/phoenix-5.0.0-hbase-2.0.6-standlone:1.0
     ports:
       # Hbase
       - 127.0.0.1:16000:16000

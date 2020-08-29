@@ -44,9 +44,7 @@ docker-compose down
 
 ## Environment variables
 
-Set it in the `.env` file:
+Setup in `*.env` files:
 
-* `MIRROR_URL` — Apache download mirror URL;
-* `PHOENIX_VER` — `5.0.0`, supports only `5.x.y`;
-* `HBASE_VER` — `2.0`, supports only `2.x`.
-* `HBASE_VERSION` — `2.0.6`, supports only `2.x.y`.
+* `hadoop.env`;
+* `hbase-standalone.env`.
