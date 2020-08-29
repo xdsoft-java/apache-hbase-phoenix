@@ -22,6 +22,8 @@ services:
       SERVICE_PRECONDITION: "namenode:50070"
     env_file:
       - ./hadoop.env
+    depends_on:
+      - namenode
 
   hbase:
     #image: woe1997/phoenix-5.0.0-hbase-2.0.6-standlone:1.0
@@ -50,6 +52,9 @@ services:
       SERVICE_PRECONDITION: "namenode:50070 datanode:50075"
     env_file:
       - ./hbase-standalone.env
+    depends_on:
+      - namenode
+      - datanode
 
 volumes:
   hadoop_namenode_test:
