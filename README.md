@@ -18,11 +18,45 @@ cd apache-hbase-phoenix
 
 ## Usage
 
-### Development
+1. Run containers in background:
 
-Server listen on `127.0.0.1:8765`.
+    ```sh
+    docker-compose up -d
+    ```
 
-#### Run in foreground
+2. Connect using JDBC URI:
+
+   ```
+   127.0.0.1:2181
+   ```
+   
+    > Example of connect using the `sqlline.py`:
+    > 
+    > ```sh
+    > docker-compose exec hbase python /opt/apache-phoenix-5.0.0-HBase-2.0-bin/sqlline.py hbase:2181:/hbase
+    > ```
+    > 
+    > For an exit write `!quit` then press <kbd>Enter</kbd>.
+ 
+3. Show last 10 log entries for every container and follow log output:
+
+    ```sh
+    docker-compose logs -f --tail=10
+    ``` 
+   
+   Press <kbd>Ctrl</kbd> + <kbd>C</kbd> to exit.
+   
+4. Stop background containers:
+
+    ```sh
+    docker-compose stop
+    ```
+
+## Development
+
+### Up
+
+Running containers in the foreground and follow log output:
 
 ```
 docker-compose up
@@ -30,16 +64,12 @@ docker-compose up
 
 Press <kbd>Ctrl</kbd> + <kbd>C</kbd> to exit.
 
-#### Run in background
+### Down
+
+Stopping and removing containers (include orphaned) with networks and volumes:
 
 ```
-docker-compose up -d
-```
-
-#### Stop
-
-```
-docker-compose down
+docker-compose down --volumes --remove-orphans
 ```
 
 ## Environment variables
