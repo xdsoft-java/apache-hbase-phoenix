@@ -3,7 +3,6 @@ version: "3.7"
 services:
   namenode:
     image: woe1997/hadoop-2.7.7-namenode:1.0
-    container_name: namenode
     ports:
       - 127.0.0.1:50070:50070
     volumes:
@@ -15,7 +14,6 @@ services:
 
   datanode:
     image: woe1997/hadoop-2.7.7-datanode:1.0
-    container_name: datanode
     ports:
       - 127.0.0.1:9864:9864
     volumes:
@@ -26,7 +24,6 @@ services:
       - ./hadoop.env
 
   hbase:
-    container_name: hbase
     #image: woe1997/phoenix-5.0.0-hbase-2.0.6-standlone:1.0
     build:
       context: ./phoenix
