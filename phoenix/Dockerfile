@@ -1,31 +1,25 @@
-FROM smizy/hbase:1.3-alpine
+FROM woe1997/hbase-base-2.0.6:1.0
 
-ARG PHOENIX_VER=4.14.3
-ARG HBASE_VER=1.3
-ARG PHOENIX_HOME=/usr/local/phoenix-${PHOENIX_VER}
+ARG PHOENIX_VER=5.0.0
+ARG HBASE_VER=2.0
 ARG MIRROR_URL="https://downloads.apache.org"
 
-ENV PATH $PATH:${PHOENIX_HOME}/bin
+ENV PHOENIX_VERSION=$PHOENIX_VER
+ENV PHOENIX_HOME /opt/apache-phoenix-$PHOENIX_VERSION-HBase-$HBASE_VER-bin
+ENV PHOENIX_URL ${MIRROR_URL}/phoenix/apache-phoenix-$PHOENIX_VERSION-HBase-$HBASE_VER/bin/apache-phoenix-$PHOENIX_VERSION-HBase-$HBASE_VER-bin.tar.gz
 
 RUN set -x \
-    && apk update \
-    && apk --no-cache add \
-        bash \
-        su-exec \
-        python \
-        wget \
-    && mirror_url=$MIRROR_URL \
-    && package_name="apache-phoenix-${PHOENIX_VER}-HBase-${HBASE_VER}" \
-    && wget -q -O - ${mirror_url}/phoenix/${package_name}/bin/${package_name}-bin.tar.gz \
-        | tar -xzf - -C /usr/local \
-    && mv /usr/local/${package_name}-bin ${PHOENIX_HOME} \
-    && cd ${PHOENIX_HOME} \
-    && mkdir -p server \
-    && mv *-server.jar server/ \
-    ## cleanup
-    && rm *-tests.jar *-sources.jar
+    && curl -fSL "$PHOENIX_URL" -o /tmp/phoenix.tar.gz \
+    && tar -xvf /tmp/phoenix.tar.gz -C /opt/ \
+    && rm /tmp/phoenix.tar.gz*
 
-## Add user-specified CLASSPATH
-ENV HBASE_CLASSPATH ${PHOENIX_HOME}/server/*
+RUN cp -a ${PHOENIX_HOME}/phoenix-core-$PHOENIX_VERSION-HBase-$HBASE_VER.jar ${PHOENIX_HOME}/phoenix-$PHOENIX_VERSION-HBase-$HBASE_VER-server.jar /opt/hbase-$HBASE_VERSION/lib/
 
-WORKDIR ${PHOENIX_HOME}
+COPY run.sh /run.sh
+RUN chmod +x /run.sh
+
+EXPOSE 8765
+
+WORKDIR ${PHOENIX_HOME}/bin
+
+CMD ["/run.sh"]
