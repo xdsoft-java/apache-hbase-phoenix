@@ -1,6 +1,7 @@
 FROM woe1997/hbase-base-2.0.6:1.0
 
-ARG PHOENIX_VER=5.0.0
+ARG PHOENIX_VERSION=5.0.0
+ARG HBASE_VERSION=2.0.6
 ARG HBASE_VER=2.0
 ARG MIRROR_URL="https://downloads.apache.org"
 
