@@ -1,6 +1,12 @@
 version: "3.7"
 
 services:
+  hosts-updater:
+    image: grachev/docker-hosts-updater
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - /etc/hosts:/opt/hosts
+
   namenode:
     image: woe1997/hadoop-2.7.7-namenode:1.0
     ports:
@@ -27,6 +33,11 @@ services:
 
   hbase:
     image: woe1997/phoenix-5.0.0-hbase-2.0.6-standlone:1.0
+    hostname: hbase
+    labels:
+      # Automatically smart adding to `/etc/hosts`:
+      # 127.0.0.1 hbase
+      ru.grachevko.dhu: "hbase:0:127.0.0.1"
     ports:
       # Hbase
       - 127.0.0.1:16000:16000
@@ -47,6 +58,7 @@ services:
     env_file:
       - ./hbase-standalone.env
     depends_on:
+      - hosts-updater
       - namenode
       - datanode
 
