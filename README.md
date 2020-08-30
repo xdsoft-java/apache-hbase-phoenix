@@ -1,5 +1,7 @@
 # Apache HBase + Phoenix
 
+> Includes a fix of the `java.net.UnknownHostException` `containerId` error when a client connecting to Zookeeper. 
+
 ## Prerequisites
 
 * [Git](https://git-scm.com/);
@@ -16,11 +18,21 @@ git clone https://github.com/mrauhu/apache-hbase-phoenix
 cd apache-hbase-phoenix
 ```
 
+### Fix client connection on Windows
+
+Run as Administrator in Command Prompt:
+
+```cmd
+echo 127.0.0.1 hbase >> %WINDIR%\System32\drivers\etc\hosts
+```
+
+On GNU/Linux and macOS the fix applying automatically.
+
 ## Usage
 
 1. Run containers in background:
 
-    ```sh
+    ```
     docker-compose up -d
     ```
 
@@ -32,7 +44,7 @@ cd apache-hbase-phoenix
    
     > Example of connect using the `sqlline.py`:
     > 
-    > ```sh
+    > ```
     > docker-compose exec hbase python /opt/apache-phoenix-5.0.0-HBase-2.0-bin/sqlline.py hbase:2181:/hbase
     > ```
     > 
@@ -40,7 +52,7 @@ cd apache-hbase-phoenix
  
 3. Show last 10 log entries for every container and follow log output:
 
-    ```sh
+    ```
     docker-compose logs -f --tail=10
     ``` 
    
@@ -48,7 +60,7 @@ cd apache-hbase-phoenix
    
 4. Stop background containers:
 
-    ```sh
+    ```
     docker-compose stop
     ```
 
